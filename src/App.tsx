@@ -1,3 +1,5 @@
+import { useEffect, useRef, useState } from "react";
+import { useForm } from "react-hook-form";
 import "./App.css";
 import addBtn from "./assets/add-30.png";
 import saved from "./assets/bookmark.svg";
@@ -8,8 +10,56 @@ import msgIcon from "./assets/message.svg";
 import rocket from "./assets/rocket.svg";
 import sendBtn from "./assets/send.svg";
 import userIcon from "./assets/user-icon.png";
+import { sendMsgToOpenAI } from "./openai";
+
+interface Message {
+  text: string;
+  isBot: boolean;
+}
+
+interface FormValues {
+  message: string;
+}
 
 function App() {
+  const msgEnd = useRef<HTMLDivElement | null>(null);
+
+  const { register, handleSubmit, reset } = useForm<FormValues>();
+
+  const [messages, setMessages] = useState<Message[]>([
+    {
+      text: "Hi, I am chatGPT",
+      isBot: true,
+    },
+  ]);
+
+  useEffect(() => {
+    if (msgEnd.current) {
+      msgEnd.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [messages]);
+
+  const handleSend = async (data) => {
+    const userMessage = data.message;
+
+    // Update the state immediately with the user's message
+    setMessages((prevMessages) => [
+      ...prevMessages,
+      { text: userMessage, isBot: false },
+    ]);
+
+    reset(); // Clear the input field after sending the message
+
+    // Send the user's message to OpenAI and get the response
+    const botResponse = await sendMsgToOpenAI(userMessage);
+
+    // Update the state with the bot's response
+    setMessages((prevMessages) => [
+      ...prevMessages,
+      { text: botResponse, isBot: true },
+    ]);
+  };
+
   return (
     <div className="App">
       <div className="sideBar">
@@ -18,16 +68,21 @@ function App() {
             <img src={gptLogo} alt="Logo" className="logo" />
             <span className="brand">AdnanGPT</span>
           </div>
-          <button className="midBtn">
+          <button
+            className="midBtn"
+            onClick={() => {
+              window.location.reload();
+            }}
+          >
             <img src={addBtn} alt="new chat" className="addBtn" />
             New Chat
           </button>
           <div className="upperSideBottom">
-            <button className="query">
+            <button className="query" value={"What is Programming "}>
               <img src={msgIcon} alt="Query" />
               What is Programming ?
             </button>
-            <button className="query">
+            <button className="query" value={"How to use an API ?"}>
               <img src={msgIcon} alt="Query" />
               How to use an API ?
             </button>
@@ -50,25 +105,30 @@ function App() {
       </div>
       <div className="main">
         <div className="chats">
-          <div className="chat">
-            <img className="chatimg" src={userIcon} alt="" />
-            <p className="txt">
-              Lorem ipsum dolor, sit amet consectetur adipisicing elit. Adipisci assumenda quos dolorem mollitia expedita, hic dolorum ipsa obcaecati, soluta quasi ea accusantium in unde? Eum assumenda architecto beatae consequuntur omnis?
-            </p>
-          </div>
-          <div className="chat bot">
-            <img className="chatimg" src={gptImgLogo} alt="" />
-            <p className="txt">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Ab eius, dolores deleniti voluptate aliquid excepturi libero inventore ipsum minus hic totam porro quaerat doloremque quas ut modi minima ea vitae facere aspernatur. Assumenda ipsam illum, porro, qui perferendis ad ipsum perspiciatis soluta dicta iste odit veritatis odio incidunt ratione, alias error reiciendis quis ex nobis praesentium! Nobis, fugit deleniti reprehenderit provident perspiciatis illo quam quos, dolores laudantium, necessitatibus vel obcaecati. Fuga exercitationem commodi ab totam quibusdam labore quidem, ex perspiciatis deleniti, velit dolore quam, neque ipsum praesentium earum. Nisi molestias quis, non odio quasi fugiat doloribus asperiores ipsa perferendis perspiciatis!
-            </p>
-          </div>
+          {messages.map((message, index) => (
+            <div key={index} className={message.isBot ? "chat bot" : "chat"}>
+              <img
+                className="chatimg"
+                src={message.isBot ? gptImgLogo : userIcon}
+                alt=""
+              />
+              <p className="txt">{message.text}</p>
+            </div>
+          ))}
+          <div ref={msgEnd} />
         </div>
         <div className="chatFooter">
           <div className="inp">
-            <input type="text" placeholder="Send a message" />
-            <button className="send">
-              <img src={sendBtn} alt="Send" />
-            </button>
+            <form className="inp" onSubmit={handleSubmit(handleSend)}>
+              <input
+                type="text"
+                placeholder="Send a message"
+                {...register("message")}
+              />
+              <button type="submit" className="send">
+                <img src={sendBtn} alt="Send" />
+              </button>
+            </form>
           </div>
           <p>
             AdnanGPT may produce inaccurate information about people, places, or
