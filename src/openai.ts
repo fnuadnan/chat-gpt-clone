@@ -1,7 +1,15 @@
 import OpenAI from "openai";
 
+const OPENAI_API_KEY = import.meta.env.VITE_OPENAI_API_KEY;
+
+if (!OPENAI_API_KEY) {
+  throw new Error(
+    "The VITE_OPENAI_API_KEY environment variable is missing or empty; either provide it, or instantiate the OpenAI client with an apiKey option, like new OpenAI({ apiKey: 'My API Key' })."
+  );
+}
+
 const openai = new OpenAI({
-  apiKey: import.meta.env.VITE_OPENAI_API_KEY,
+  apiKey: import.meta.env.OPENAI_API_KEY,
   dangerouslyAllowBrowser: true,
 });
 
