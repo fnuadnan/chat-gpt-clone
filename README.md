@@ -1,30 +1,66 @@
-# React + TypeScript + Vite
+                            AdnanGPT Chat Application
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+  This project is a chat application that integrates with OpenAI to simulate a conversational bot named AdnanGPT. The application is built using React, and it leverages custom hooks for state management and side effects.
 
-Currently, two official plugins are available:
+Table of Contents
+  -Installation
+  -Usage
+  -File Structure
+  -Components
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Installation
+ 1- Clone the repository
+ 2- npm install
+ 3- npm start
 
-## Expanding the ESLint configuration
+Usage
+  -Upon launching the application, you will see the chat interface with a predefined greeting message -from AdnanGPT.
+  -You can type a message in the input field and hit the send button to interact with AdnanGPT.
+  -You can also use the predefined query buttons in the sidebar to quickly send predefined messages to AdnanGPT.
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+File Structure
+  src/
+  ├── assets/
+  │   ├── add-30.png
+  │   ├── bookmark.svg
+  │   ├── chatgpt.svg
+  │   ├── chatgptLogo.svg
+  │   ├── home.svg
+  │   ├── message.svg
+  │   ├── rocket.svg
+  │   ├── send.svg
+  │   └── user-icon.png
+  ├── hooks/
+  │   └── useChat.ts
+  ├── App.css
+  ├── App.tsx
+  └── openai.ts
 
-- Configure the top-level `parserOptions` property like this:
+useChat.ts
+  This file contains the custom hook useChat that manages the chat logic, including state and side effects.
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
-```
+  useChat:
+    Manages the chat messages state.
+    Handles sending messages and updating the state with responses from OpenAI.
+    Scrolls to the most recent message automatically.
+App.tsx
+  This file contains the main component of the application. It integrates the custom hook and includes the JSX for rendering the sidebar, chat messages, and footer.
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+  Components
+    1- SideBar: Contains navigation and predefined query buttons.
+    2- ChatMessages: Renders the chat messages.
+    3- ChatFooter: Handles message input and submission.
+
+openai.ts
+  This file contains the function to interact with OpenAI's API.
+
+Components
+  Sidebar
+    Description: Contains navigation buttons and predefined queries.
+    Props: handleQuery - a function to handle predefined query button clicks.
+  ChatMessages
+    Description: Renders the chat messages.
+    Props: messages - an array of message objects, msgEnd - a reference to the last message.
+  ChatFooter
+    Description: Handles the input and submission of new messages.
+    Props: handleSend - a function to handle sending messages.
