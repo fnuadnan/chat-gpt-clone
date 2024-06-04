@@ -1,4 +1,3 @@
-import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import "./App.css";
 import addBtn from "./assets/add-30.png";
@@ -10,68 +9,21 @@ import msgIcon from "./assets/message.svg";
 import rocket from "./assets/rocket.svg";
 import sendBtn from "./assets/send.svg";
 import userIcon from "./assets/user-icon.png";
-import { sendMsgToOpenAI } from "./openai";
-
-interface Message {
-  text: string;
-  isBot: boolean;
-}
-
-interface FormValues {
-  message: string;
-}
+import { FormValues } from "./entities/entities";
+import { useChat } from "./hooks/useChat";
 
 function App() {
-  const msgEnd = useRef<HTMLDivElement | null>(null);
-
+  const { messages, handleSend, msgEnd } = useChat();
   const { register, handleSubmit, reset } = useForm<FormValues>();
 
-  const [messages, setMessages] = useState<Message[]>([
-    {
-      text: "Hi, I am AdnanGPT",
-      isBot: true,
-    },
-  ]);
-
-  useEffect(() => {
-    if (msgEnd.current) {
-      msgEnd.current.scrollIntoView({ behavior: "smooth" });
-    }
-  }, [messages]);
-
-  const handleSend = async (data) => {
-    const userMessage = data.message;
-
-    // Update the state immediately with the user's message
-    setMessages((prevMessages) => [
-      ...prevMessages,
-      { text: userMessage, isBot: false },
-    ]);
-
-    reset(); // Clear the input field after sending the message
-
-    // Send the user's message to OpenAI and get the response
-    const botResponse = await sendMsgToOpenAI(userMessage);
-
-    // Update the state with the bot's response
-    setMessages((prevMessages) => [
-      ...prevMessages,
-      { text: botResponse, isBot: true },
-    ]);
+  const onSubmit = (data: FormValues) => {
+    handleSend(data.message);
+    reset();
   };
 
-  const handleQuery = async (e) => {
-    const userMessage = e.target.value;
-    setMessages((prevMessages) => [
-      ...prevMessages,
-      { text: userMessage, isBot: false },
-    ]);
-    reset();
-    const botResponse = await sendMsgToOpenAI(userMessage);
-    setMessages((prevMessages) => [
-      ...prevMessages,
-      { text: botResponse, isBot: true },
-    ]);
+  const handleQuery = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    const userMessage = e.currentTarget.value;
+    handleSend(userMessage);
   };
 
   return (
@@ -141,7 +93,7 @@ function App() {
         </div>
         <div className="chatFooter">
           <div className="inp">
-            <form className="inp" onSubmit={handleSubmit(handleSend)}>
+            <form className="inp" onSubmit={handleSubmit(onSubmit)}>
               <input
                 type="text"
                 placeholder="Send a message"
