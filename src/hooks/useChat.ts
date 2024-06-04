@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import { Message } from "../entities/entities";
-import { sendMsgToOpenAI } from "../openai";
+import APIClient from "../services/api-client";
+
+const apiclient = new APIClient<string>("/completions");
 
 export const useChat = () => {
   const [messages, setMessages] = useState<Message[]>([
@@ -17,7 +19,9 @@ export const useChat = () => {
       { text: userMessage, isBot: false },
     ]);
 
-    const botResponse = await sendMsgToOpenAI(userMessage);
+    const apiResponse = await apiclient.post(userMessage);
+    const botResponse =
+      (await apiResponse.choices[0]?.message.content) || "No response";
     setMessages((prevMessages) => [
       ...prevMessages,
       { text: botResponse ?? "Sorry, I didn't get that.", isBot: true },
