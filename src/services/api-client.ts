@@ -5,7 +5,7 @@ const axiosIntance = axios.create({
 });
 
 class APIClient<T> {
-  endpoint: string;
+  private endpoint: string;
 
   constructor(endpoint: string) {
     this.endpoint = endpoint;
