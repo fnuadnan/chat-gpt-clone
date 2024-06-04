@@ -28,7 +28,7 @@ function App() {
 
   const [messages, setMessages] = useState<Message[]>([
     {
-      text: "Hi, I am chatGPT",
+      text: "Hi, I am AdnanGPT",
       isBot: true,
     },
   ]);
@@ -60,6 +60,20 @@ function App() {
     ]);
   };
 
+  const handleQuery = async (e) => {
+    const userMessage = e.target.value;
+    setMessages((prevMessages) => [
+      ...prevMessages,
+      { text: userMessage, isBot: false },
+    ]);
+    reset();
+    const botResponse = await sendMsgToOpenAI(userMessage);
+    setMessages((prevMessages) => [
+      ...prevMessages,
+      { text: botResponse, isBot: true },
+    ]);
+  };
+
   return (
     <div className="App">
       <div className="sideBar">
@@ -78,11 +92,19 @@ function App() {
             New Chat
           </button>
           <div className="upperSideBottom">
-            <button className="query" value={"What is Programming "}>
+            <button
+              className="query"
+              value={"What is Programming "}
+              onClick={handleQuery}
+            >
               <img src={msgIcon} alt="Query" />
               What is Programming ?
             </button>
-            <button className="query" value={"How to use an API ?"}>
+            <button
+              className="query"
+              value={"How to use an API ?"}
+              onClick={handleQuery}
+            >
               <img src={msgIcon} alt="Query" />
               How to use an API ?
             </button>
