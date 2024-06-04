@@ -2,6 +2,7 @@ import axios from "axios";
 
 const axiosIntance = axios.create({
   baseURL: "https://afternoon-castle-59606-f91da93d1220.herokuapp.com/",
+  withCredentials: true,
 });
 
 class APIClient<T> {
