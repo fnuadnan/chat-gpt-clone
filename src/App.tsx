@@ -99,8 +99,8 @@ function App() {
               <input
                 type="text"
                 placeholder="Send a message"
+                autoComplete="off"
                 {...register("message")}
-                name={`message-${Math.random()}`} // Add a unique name to the input
               />
               <button type="submit" className="send">
                 <img src={sendBtn} alt="Send" />
