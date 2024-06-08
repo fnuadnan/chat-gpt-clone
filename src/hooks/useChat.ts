@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import { ApiResponse, Message } from "../entities/entities";
 import APIClient from "../services/api-client";
 
@@ -36,13 +36,5 @@ export const useChat = () => {
     }
   };
 
-  // make the page smooth when the page is full : better scrolling
-  const msgEnd = useRef<HTMLDivElement | null>(null);
-  useEffect(() => {
-    if (msgEnd.current) {
-      msgEnd.current.scrollIntoView({ behavior: "smooth" });
-    }
-  }, [messages]);
-
-  return { messages, handleSend, msgEnd };
+  return { messages, handleSend };
 };

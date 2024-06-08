@@ -11,9 +11,11 @@ import sendBtn from "./assets/send.svg";
 import userIcon from "./assets/user-icon.png";
 import { FormValues } from "./entities/entities";
 import { useChat } from "./hooks/useChat";
+import useMsgEnd from "./hooks/useMsgEnd";
 
 function App() {
-  const { messages, handleSend, msgEnd } = useChat();
+  const { messages, handleSend } = useChat();
+  const msgEndRef = useMsgEnd(messages); // make the page smooth when the page is full : better scrolling
   const { register, handleSubmit, reset } = useForm<FormValues>();
 
   const onSubmit = (data: FormValues) => {
@@ -89,7 +91,7 @@ function App() {
               <p className="txt">{message.text}</p>
             </div>
           ))}
-          <div ref={msgEnd} />
+          <div ref={msgEndRef} />
         </div>
         <div className="chatFooter">
           <div className="inp">
