@@ -20,7 +20,7 @@ function App() {
 
   const onSubmit = (data: FormValues) => {
     handleSend(data.message);
-    reset();
+    reset({ message: "" }); // Ensure the input is reset properly
   };
 
   const handleQuery = async (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -100,6 +100,7 @@ function App() {
                 type="text"
                 placeholder="Send a message"
                 {...register("message")}
+                name={`message-${Math.random()}`} // Add a unique name to the input
               />
               <button type="submit" className="send">
                 <img src={sendBtn} alt="Send" />
