@@ -7,12 +7,11 @@ export interface FormValues {
   message: string;
 }
 
-export interface Choice {
-  message: {
-    content: string;
-  };
-}
-
+// interface of the api response: what we get from the backend api
 export interface ApiResponse {
-  choices: Choice[];
+  choices: {
+    message: {
+      content: string;
+    };
+  }[];
 }

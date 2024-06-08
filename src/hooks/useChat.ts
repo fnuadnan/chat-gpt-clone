@@ -13,11 +13,13 @@ export const useChat = () => {
   ]);
 
   const handleSend = async (input: string) => {
+    // directly insert the input of the user
     setMessages((prevMessages) => [
       ...prevMessages,
       { text: input, isBot: false },
     ]);
 
+    // if response show the user, if not show them: sorry
     try {
       const apiResponse = await apiclient.post(input);
       const botResponse =
@@ -34,6 +36,7 @@ export const useChat = () => {
     }
   };
 
+  // make the page smooth when the page is full : better scrolling
   const msgEnd = useRef<HTMLDivElement | null>(null);
   useEffect(() => {
     if (msgEnd.current) {
