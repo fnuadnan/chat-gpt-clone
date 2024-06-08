@@ -13,19 +13,25 @@ export const useChat = () => {
   ]);
 
   const handleSend = async (input: string) => {
-    const userMessage = input;
     setMessages((prevMessages) => [
       ...prevMessages,
-      { text: userMessage, isBot: false },
+      { text: input, isBot: false },
     ]);
 
-    const apiResponse = await apiclient.post(userMessage);
-    const botResponse =
-      apiResponse.choices[0]?.message.content || "No response";
-    setMessages((prevMessages) => [
-      ...prevMessages,
-      { text: botResponse ?? "Sorry, I didn't get that.", isBot: true },
-    ]);
+    try {
+      const apiResponse = await apiclient.post(input);
+      const botResponse =
+        apiResponse.choices[0]?.message.content || "No response";
+      setMessages((prevMessages) => [
+        ...prevMessages,
+        { text: botResponse, isBot: true },
+      ]);
+    } catch (error) {
+      setMessages((prevMessages) => [
+        ...prevMessages,
+        { text: "Sorry, there was an error.", isBot: true },
+      ]);
+    }
   };
 
   const msgEnd = useRef<HTMLDivElement | null>(null);

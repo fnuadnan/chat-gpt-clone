@@ -13,9 +13,13 @@ class APIClient<T> {
   }
 
   post = async (message: string) => {
-    return axiosIntance
-      .post<T>(this.endpoint + "/", { message })
-      .then((res) => res.data);
+    try {
+      const res = await axiosIntance.post<T>(this.endpoint + "/", { message });
+      return res.data;
+    } catch (error) {
+      console.error("APIClient post error:", error);
+      throw error;
+    }
   };
 }
 
