@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import "./App.css";
 import addBtn from "./assets/add-30.png";
@@ -15,55 +16,53 @@ import useMsgEnd from "./hooks/useMsgEnd";
 
 function App() {
   const { messages, handleSend } = useChat();
-  const msgEndRef = useMsgEnd(messages); // make the page smooth when the page is full : better scrolling
   const { register, handleSubmit, reset } = useForm<FormValues>();
 
+  const [prompts, setPrompts] = useState<string[]>([
+    "What is Programming?",
+    "How to use an API",
+  ]);
+
+  // This function is used to handle the form submission
   const onSubmit = (data: FormValues) => {
-    handleSend(data.message);
+    handleSend(data.message); // Send the message to the bot
+    setPrompts((prevPrompts) => [ data.message,...prevPrompts]); // Add the message to the prompts
     reset({ message: "" }); // Ensure the input is reset properly
   };
 
+  // This function is used to handle the query when the user clicks on the prompt
   const handleQuery = async (e: React.MouseEvent<HTMLButtonElement>) => {
     const userMessage = e.currentTarget.value;
     handleSend(userMessage);
   };
 
+  const msgEndRef = useMsgEnd(messages); // make the page smooth when the page is full : better scrolling
+
   return (
     <div className="App">
+
       <div className="sideBar">
         <div className="upperSide">
           <div className="upperSideTop">
             <img src={gptLogo} alt="Logo" className="logo" />
             <span className="brand">AdnanGPT</span>
           </div>
-          <button
-            className="midBtn"
-            onClick={() => {
-              window.location.reload();
-            }}
-          >
+          <button className="midBtn" onClick={() => { window.location.reload()}}>
             <img src={addBtn} alt="new chat" className="addBtn" />
             New Chat
           </button>
+
           <div className="upperSideBottom">
-            <button
-              className="query"
-              value={"What is Programming "}
-              onClick={handleQuery}
-            >
-              <img src={msgIcon} alt="Query" />
-              What is Programming ?
-            </button>
-            <button
-              className="query"
-              value={"How to use an API ?"}
-              onClick={handleQuery}
-            >
-              <img src={msgIcon} alt="Query" />
-              How to use an API ?
-            </button>
+            {prompts.map((prompt, index) => (
+              <button key={index} className="query" value={prompt} onClick={handleQuery}>
+                <img src={msgIcon} alt="Query" />
+                {prompt}
+              </button>
+            ))}
           </div>
+
         </div>
+
         <div className="lowerSide">
           <div className="listItems">
             <img src={home} alt="Home" className="listItemsImg" />
