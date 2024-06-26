@@ -19,23 +19,24 @@ This project is a chat application that integrates with OpenAI to simulate a con
 - Use the predefined query buttons in the sidebar to quickly send predefined messages to AdnanGPT.
 
 ## File Structure
-src/
-├── assets/
-│ ├── add-30.png
-│ ├── bookmark.svg
-│ ├── chatgpt.svg
-│ ├── chatgptLogo.svg
-│ ├── home.svg
-│ ├── message.svg
-│ ├── rocket.svg
-│ ├── send.svg
-│ └── user-icon.png
-├── hooks/
-│ └── useChat.ts
-├── App.css
-├── App.tsx
-└── openai.ts
-
+|-- File Structure
+|   |-- src/
+|   |   |-- assets/
+|   |   |   |-- add-30.png
+|   |   |   |-- bookmark.svg
+|   |   |   |-- chatgpt.svg
+|   |   |   |-- chatgptLogo.svg
+|   |   |   |-- home.svg
+|   |   |   |-- message.svg
+|   |   |   |-- rocket.svg
+|   |   |   |-- send.svg
+|   |   |   `-- user-icon.png
+|   |   |-- hooks/
+|   |   |   `-- useChat.ts
+|   |   |-- App.css
+|   |   |-- App.tsx
+|   |   `-- openai.ts
+|
 ### useChat.ts
 This file contains the custom hook `useChat` that manages the chat logic, including state and side effects.
 
