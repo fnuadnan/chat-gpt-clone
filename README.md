@@ -1,6 +1,6 @@
 # AdnanGPT Chat Application
 
-This project is a chat application that integrates with OpenAI to simulate a conversational bot named AdnanGPT. The application is built using React, and it leverages custom hooks for state management and side effects.
+This project is an advanced chat application integrating OpenAI's conversational bot, AdnanGPT. Leveraging React for the frontend, I employed custom hooks extensively for robust state management and efficient side effect handling. On the backend, I utilized Node.js with Express for seamless API integration, and integrated OpenAI's API to enhance conversational capabilities. 
 
 ## Table of Contents
 - [Installation](#installation)
