@@ -56,7 +56,7 @@ function App() {
             {prompts.map((prompt, index) => (
               <button key={index} className="query" value={prompt} onClick={handleQuery}>
                 <img src={msgIcon} alt="Query" />
-                {prompt}
+                {prompt.length > 22 ? prompt.slice(0, 22) + "..." : prompt}
               </button>
             ))}
           </div>

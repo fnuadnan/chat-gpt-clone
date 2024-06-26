@@ -68,6 +68,9 @@ body {
 	border-radius: 0.5rem;
 	cursor: pointer;
 }
+.midBtn:hover {
+	background: #2A3AFF;
+}
 
 .query {
 	display: flex;
@@ -80,6 +83,9 @@ body {
 	border-radius: 0.5rem;
 	border: 1px solid rgba(98, 98, 98, 1);
 	cursor: pointer;
+}
+.query:hover {
+	background: rgba(31, 30, 58, 1);
 }
 
 .query>img {
