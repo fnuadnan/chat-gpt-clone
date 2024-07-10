@@ -129,12 +129,14 @@ body {
 }
 
 .chats {
-	overflow: hidden;
 	overflow-y: scroll;
 	scroll-behavior: smooth;
 	width: 100%;
 	max-width: 70rem;
 	height: calc(100vh - 17rem);
+}
+.chats::-webkit-scrollbar {
+	display: none;
 }
 
 .chat {
