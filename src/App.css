@@ -177,7 +177,9 @@ body {
 	display: flex;
 	align-items: center;
 	border-radius: 0.5rem;
-	width: 68rem;
+	width: 100%;
+  	max-width: 68rem;
+  	box-sizing: border-box;
 }
 
 .inp>input {
@@ -199,4 +201,22 @@ body {
 .txt {
 	line-height: 2.6rem;
 	color: rgba(222, 222, 222, 1);
+}
+
+@media (max-width: 785px) {
+	.sideBar {
+	  display: none;
+	}
+  
+	.main {
+	  flex: 1; /* Take the full width when the sidebar is hidden */
+	  margin: 0; /* Remove margin to make it full width */
+	}
+	
+	.inp {
+		width: 100%; /* Use percentage width to make it responsive */
+		max-width: 350px; /* Set max-width to ensure it doesn't get too wide */
+		margin: 0 auto; /* Center the element */
+	}
+
 }
