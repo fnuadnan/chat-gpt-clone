@@ -22,28 +22,12 @@ const SideBar = () => {
   return (
     <div className="sideBar">
       <div className="upperSide">
-        <div className="upperSideTop">
-          <img src={gptLogo} alt="Logo" className="logo" />
-          <span className="brand">AdnanGPT</span>
-        </div>
-        <button
-          className="midBtn"
-          onClick={() => {
-            window.location.reload();
-          }}
-        >
-          <img src={addBtn} alt="new chat" className="addBtn" />
-          New Chat
-        </button>
+        <div className="upperSideTop"> <img src={gptLogo} alt="Logo" className="logo" /> <span className="brand">AdnanGPT</span> </div>
+        <button className="midBtn" onClick={() => { window.location.reload(); }} > <img src={addBtn} alt="new chat" className="addBtn" /> New Chat </button>
 
         <div className="upperSideBottom">
           {prompts.map((prompt, index) => (
-            <button
-              key={index}
-              className="query"
-              value={prompt}
-              onClick={handleQuery}
-            >
+            <button key={index} className="query" value={prompt} onClick={handleQuery} >
               <img src={msgIcon} alt="Query" />
               {prompt.length > 22 ? prompt.slice(0, 22) + "..." : prompt}
             </button>
@@ -52,18 +36,9 @@ const SideBar = () => {
       </div>
 
       <div className="lowerSide">
-        <div className="listItems">
-          <img src={home} alt="Home" className="listItemsImg" />
-          Home
-        </div>
-        <div className="listItems">
-          <img src={saved} alt="Saved" className="listItemsImg" />
-          Saved
-        </div>
-        <div className="listItems">
-          <img src={rocket} alt="Upgrade" className="listItemsImg" />
-          Upgrade to Pro
-        </div>
+        <div className="listItems"> <img src={home} alt="Home" className="listItemsImg" /> Home </div>
+        <div className="listItems"> <img src={saved} alt="Saved" className="listItemsImg" /> Saved </div>
+        <div className="listItems"> <img src={rocket} alt="Upgrade" className="listItemsImg" /> Upgrade to Pro </div>
       </div>
     </div>
   );
